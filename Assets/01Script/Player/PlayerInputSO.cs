@@ -14,8 +14,26 @@ namespace _01Script.Player
         public event Action<bool> onSitKey;
         public event Action onAttack;
         public event Action onPickUp;
-        
-        
+
+        private InputSystem_Actions _input;
+
+        private void OnEnable()
+        {
+            if (_input == null)
+            {
+                _input = new InputSystem_Actions();
+                _input.Player.SetCallbacks(this);
+            }
+
+            _input.Player.Enable();
+        }
+
+        private void OnDisable()
+        {
+            _input.Player.Disable();
+        }
+
+
         public void OnMove(InputAction.CallbackContext context)
         {
             onMovement?.Invoke(context.ReadValue<Vector2>());

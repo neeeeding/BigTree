@@ -16,13 +16,13 @@ namespace _01Script.Player
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-            _stateMachine = new StateMachine(_animator,states);
-            _stateMachine.ChanageState("IDLE");
-        }
-
-        private void Update()
-        {
-            _stateMachine.UpdateState();
+        //     _stateMachine = new StateMachine(_animator,states);
+        //     _stateMachine.ChanageState("IDLE");
+        // }
+        //
+        // private void Update()
+        // {
+        //     _stateMachine.UpdateState();
         }
     }
 }
