@@ -28,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
         ApplyGravity();
 
         _controller.Move(_velocity * Time.fixedDeltaTime);
-        print(_velocity);
     }
 
     private void ApplyGravity()
@@ -51,7 +50,6 @@ public class PlayerMovement : MonoBehaviour
     private void Move(Vector2 move)
     {
         _movment= new Vector3(move.x, 0, move.y);
-        print("move");
     }
 
     private void OnDisable()
