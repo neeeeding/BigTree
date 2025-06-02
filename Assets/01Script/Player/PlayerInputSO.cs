@@ -33,7 +33,6 @@ namespace _01Script.Player
             _input.Player.Disable();
         }
 
-
         public void OnMove(InputAction.CallbackContext context)
         {
             onMovement?.Invoke(context.ReadValue<Vector2>());
@@ -41,7 +40,8 @@ namespace _01Script.Player
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            onJumpPressed?.Invoke();
+            if(context.performed)
+                onJumpPressed?.Invoke();
         }
 
         public void OnRun(InputAction.CallbackContext context)

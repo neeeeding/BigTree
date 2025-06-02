@@ -9833,7 +9833,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 634885740}
-  - component: {fileID: 634885741}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -9859,27 +9858,6 @@ Transform:
   - {fileID: 2038117484}
   m_Father: {fileID: 1944304928}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &634885741
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 634885739}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1.0560935, y: 0.6126373, z: 0.036663055}
-  m_Center: {x: 0.004146576, y: -0.0034637451, z: 0.5070858}
 --- !u!1001 &642998780
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17058,6 +17036,7 @@ GameObject:
   - component: {fileID: 1013245617}
   - component: {fileID: 1013245618}
   - component: {fileID: 1013245620}
+  - component: {fileID: 1013245621}
   - component: {fileID: 1013245619}
   m_Layer: 6
   m_Name: Player
@@ -17135,7 +17114,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 8
   runSpeed: 15
+  jumpPower: 3
+  terminalVelocity: -50
   _input: {fileID: 11400000, guid: b0bbaefd733ebfc44ae2e1145cb0b579, type: 2}
+--- !u!114 &1013245621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013245616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9040e902e214624396d1e8df7fbad55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 10
+  cam: {fileID: 1944304924}
 --- !u!1001 &1022585786
 PrefabInstance:
   m_ObjectHideFlags: 0
