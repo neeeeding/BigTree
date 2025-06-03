@@ -7,9 +7,10 @@ namespace _01Script.Puzzle.ChainDoor
     public class ChainDoorBtn : MonoBehaviour
     {
         [Header("Setting")]
-        [SerializeField] private int min = 0; //문의 최소 위치
+        [SerializeField] private int min = 1; //문의 최소 위치
         [SerializeField] private int max = 5; //문의 최대 위치
-        [SerializeField] private float doorSize; // 문 높이
+        [SerializeField] private Vector2 doorSize; // 문 크기
+        [SerializeField] private bool isX = false; // true : 가로로 이동 / false : 세로로 이동
 
         [Header("Need")]
         [SerializeField] private SerializedDictionary<GameObject,int> doors; // 문(?) 들, 위치
@@ -41,30 +42,42 @@ namespace _01Script.Puzzle.ChainDoor
             foreach (GameObject door in doorList)
             {
                 int wantDoorPos = btns[btn][curNum];
-                door.transform.position += new Vector3(0, doorSize * wantDoorPos, 0);
 
-                doors[door] += wantDoorPos;        // 값 변경
-                DoorMaxMinPos(door, doors[door]);   // 또 값 변경 가능
+                doors[door] += wantDoorPos; // 값 변경
+
+                int difference = DoorMaxMinPos(door, doors[door]);
+                wantDoorPos = difference != 0? difference : wantDoorPos; // 또 값 변경 가능
+                
+                if (isX && difference == 0 )
+                {
+                    door.transform.localPosition -= door.transform.right * doorSize.x * wantDoorPos;
+                }
+                else if( difference == 0)
+                {
+                    door.transform.localPosition -= door.transform.up * doorSize.y * wantDoorPos;
+                }
+                
                 curNum++;
             }
         }
 
 
-        private void DoorMaxMinPos(GameObject door, int curPos) //문의 최대, 최소 위치
+        private int DoorMaxMinPos(GameObject door, int curPos) //문의 최대, 최소 위치
         {
+            int difference = 0;
             if (curPos < min)
             {
-                int difference = min - curPos;
+                difference = min - curPos;
                 doors[door] = min;
-                door.transform.position += new Vector3(0, doorSize * difference, 0);
             }
 
             if (curPos > max)
             {
-                int difference = curPos - max;
+                difference = curPos - max;
                 doors[door] = max;
-                door.transform.position -= new Vector3(0, doorSize * difference, 0);
             }
+
+            return difference;
         }
     
     }

@@ -20,7 +20,10 @@ namespace _01Script.Player
 
         private void Update()
         {
-            MousePos();
+            if (Input.GetMouseButton(1))
+            {
+                MousePos();   
+            }
         }
 
         private void MousePos() // 마우스 위치에 따라 회전
@@ -29,7 +32,7 @@ namespace _01Script.Player
             mousePos.y += Input.GetAxis("Mouse Y") * _speed;
             
             
-            mousePos.y = Mathf.Clamp(mousePos.y, -30f, 30f);
+            mousePos.y = Mathf.Clamp(mousePos.y, -30f, 80f);
 
             gameObject.transform.localEulerAngles = new Vector3(0, mousePos.x, 0);
             cam.transform.localEulerAngles = new Vector3(-mousePos.y,0, 0);

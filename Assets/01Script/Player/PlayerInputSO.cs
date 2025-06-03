@@ -16,6 +16,7 @@ namespace _01Script.Player
         public event Action onPickUp;
 
         private InputSystem_Actions _input;
+        private Vector2 move; 
 
         private void OnEnable()
         {
@@ -35,7 +36,13 @@ namespace _01Script.Player
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            onMovement?.Invoke(context.ReadValue<Vector2>());
+            move = context.ReadValue<Vector2>();
+        }
+
+        public void UpdateMove()
+        {
+            onMovement?.Invoke(move);   
+            
         }
 
         public void OnJump(InputAction.CallbackContext context)

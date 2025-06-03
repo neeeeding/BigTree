@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace _01Script.Player
@@ -28,6 +29,12 @@ namespace _01Script.Player
             _input.onMovement += Move;
             _input.onJumpPressed += Jump;
         }
+
+        private void Update()
+        {
+            _input.UpdateMove();
+        }
+
         private void FixedUpdate()
         {
             ApplyGravity();
@@ -77,6 +84,8 @@ namespace _01Script.Player
         private void Move(Vector2 move)
         {
             _movment= new Vector3(move.x, 0, move.y);
+
+            _movment = transform.TransformDirection(_movment); // 현재 바라보는 방향으로 변환
         }
 
         private void OnDisable()
