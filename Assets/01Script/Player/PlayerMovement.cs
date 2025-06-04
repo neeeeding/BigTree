@@ -56,16 +56,15 @@ namespace _01Script.Player
                 if (_verticalVelocity < terminalVelocity)
                     _verticalVelocity = terminalVelocity;
             }
-            if (isJump)
+            if (isJump && !IsGround)
             { 
                 _verticalVelocity = Mathf.MoveTowards(_verticalVelocity, jumpPower, runSpeed*Time.fixedDeltaTime);
 
                 if (Mathf.Abs(jumpPower - _verticalVelocity) < 1f)
-                {
-                    isJump = false;    
+                {   
+                    isJump = false; 
                 }
             }
-
 
             _velocity = _movment * moveSpeed;
             _velocity.y = _verticalVelocity;
@@ -75,7 +74,7 @@ namespace _01Script.Player
 
         private void Jump()
         {
-            if (IsGround || !isJump)
+            if (IsGround && !isJump)
             {
                 isJump = true;
             }

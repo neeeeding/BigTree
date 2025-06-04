@@ -50,11 +50,11 @@ namespace _01Script.Puzzle.ChainDoor
                 
                 if (isX && difference == 0 )
                 {
-                    door.transform.localPosition -= door.transform.right * doorSize.x * wantDoorPos;
+                    door.transform.localPosition += door.transform.right * doorSize.x * wantDoorPos;
                 }
                 else if( difference == 0)
                 {
-                    door.transform.localPosition -= door.transform.up * doorSize.y * wantDoorPos;
+                    door.transform.localPosition += door.transform.up * doorSize.y * wantDoorPos;
                 }
                 
                 curNum++;
