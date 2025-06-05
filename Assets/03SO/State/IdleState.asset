@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: IdleState
   m_EditorClassIdentifier: 
   stateName: IDLE
-  className: 
-  animParamName: 
-  animationHash: 0
+  className: _01Script.Player.States.IdleState
+  animParamName: IDLE
+  animationHash: -357476191

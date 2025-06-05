@@ -56,7 +56,7 @@ namespace _01Script.Player
                 if (_verticalVelocity < terminalVelocity)
                     _verticalVelocity = terminalVelocity;
             }
-            if (isJump && !IsGround)
+            if (isJump )
             { 
                 _verticalVelocity = Mathf.MoveTowards(_verticalVelocity, jumpPower, runSpeed*Time.fixedDeltaTime);
 
