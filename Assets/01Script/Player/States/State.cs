@@ -4,11 +4,13 @@ namespace _01Script.Player.States
 {
     public class State
     {
+        protected Player _player;
         protected Animator _animator;
         protected int _animHash;
 
-        public State(Animator animator, int hash)
+        public State(Player player,Animator animator, int hash)
         {
+            _player = player;
             _animator = animator;
             _animHash = hash;
         }

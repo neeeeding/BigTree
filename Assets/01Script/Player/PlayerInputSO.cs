@@ -75,11 +75,10 @@ namespace _01Script.Player
             }
         }
 
-        public void OnClick(InputAction.CallbackContext context)
+        public void OnAttack(InputAction.CallbackContext context)
         {
             onAttack?.Invoke();
         }
-
         public void OnPick(InputAction.CallbackContext context)
         {
             onPickUp?.Invoke();

@@ -15,7 +15,9 @@ namespace _01Script.Player
     
         private float gravity = -9.8f;
 
+        
         private bool isJump; //true : 점프 해 / false : 점프 가능
+        private bool isRun; //true : 달려 / false : 걸어
         private bool IsGround => _controller.isGrounded;
         private float _verticalVelocity;
         private Vector3 _velocity;
@@ -28,6 +30,7 @@ namespace _01Script.Player
             _controller = GetComponent<CharacterController>();
             _input.onMovement += Move;
             _input.onJumpPressed += Jump;
+            _input.onRunKey += Run;
         }
 
         private void Update()
@@ -66,11 +69,15 @@ namespace _01Script.Player
                 }
             }
 
-            _velocity = _movment * moveSpeed;
+            _velocity = isRun?  _movment * runSpeed : _movment * moveSpeed;
             _velocity.y = _verticalVelocity;
         
         }
 
+        private void Run(bool run)
+        {
+            isRun = run;
+        }
 
         private void Jump()
         {
@@ -91,6 +98,7 @@ namespace _01Script.Player
         {
             _input.onMovement -= Move;
             _input.onJumpPressed -= Jump;
+            _input.onRunKey -= Run;
         }
     }
 }
