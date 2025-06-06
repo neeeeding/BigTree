@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateName: ATTACK
   className: _01Script.Player.States.AttackState
-  animParamName: ATTACk
-  animationHash: -1940469131
+  animParamName: ATTACK
+  animationHash: -1221006659

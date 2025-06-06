@@ -13,6 +13,7 @@ namespace _01Script.Player
         [Header("Need")]
         [SerializeField] private StateSO[] states; //상태들
 
+        [field: SerializeField] public LayerMask attackLayer { get; private set; } // 어택 가능한
         [field:SerializeField]public PlayerInputSO InputController { get; private set; } // 인 풋
         [field:SerializeField]public Attack Attack{ get; private set; } //공격에 대한 정보(이펙트)
 

@@ -14,11 +14,11 @@ TagManager:
   - Player
   - Ground
   - Map
-  - Light
   - 
-  - 
-  - 
-  - 
+  - Fire
+  - Waterobj
+  - Electricity
+  - Enemy
   - 
   - 
   - 

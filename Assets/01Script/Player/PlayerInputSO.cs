@@ -77,7 +77,10 @@ namespace _01Script.Player
 
         public void OnAttack(InputAction.CallbackContext context)
         {
-            onAttack?.Invoke();
+            if (context.performed)
+            {
+                onAttack?.Invoke();
+            }
         }
         public void OnPick(InputAction.CallbackContext context)
         {
