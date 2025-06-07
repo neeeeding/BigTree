@@ -18,11 +18,11 @@ TagManager:
   - Fire
   - Waterobj
   - Electricity
-  - Enemy
-  - 
-  - 
-  - 
-  - 
+  - ElectricityTree
+  - Tree
+  - Corner
+  - End
+  - Line
   - 
   - 
   - 

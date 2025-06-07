@@ -23,30 +23,36 @@ namespace _01Script.Player
         [SerializeField] private ParticleSystem waterEffect; //물
         [SerializeField] private ParticleSystem electricityEffect; //전기
 
+        //가능한 공격
+        private bool _canFire;
+        private bool _canWater;
+        private bool _canElectricity;
+        
+
         private List<ParticleSystem> _attackEffects; //지금 실행할 공격들
-        private Dictionary<ParticleSystem, GameObject> skill; //스킬
-        private bool setting; //true : 시작 / false : 세팅 전
+        private Dictionary<ParticleSystem, GameObject> _skill; //스킬
+        private bool _setting; //true : 시작 / false : 세팅 전
 
 
         private void Awake()
         {
-            setting = false;
+            _setting = false;
             _attackEffects =  new List<ParticleSystem>();
             _attackEffects.Add(fireEffect);
             _attackEffects.Add(waterEffect);
             _attackEffects.Add(electricityEffect);
             
-            skill = new Dictionary<ParticleSystem, GameObject>();
-            skill.Add(fireEffect, fire);
-            skill.Add(waterEffect, water);
-            skill.Add(electricityEffect, electricity);
+            _skill = new Dictionary<ParticleSystem, GameObject>();
+            _skill.Add(fireEffect, fire);
+            _skill.Add(waterEffect, water);
+            _skill.Add(electricityEffect, electricity);
             
             StopAttack();
         }
 
         private void Update()
         {
-            if (setting&&_attackEffects != null && _attackEffects.Count > 0) //공격 함?
+            if (_setting&&_attackEffects != null && _attackEffects.Count > 0) //공격 함?
             {
 
                 foreach (ParticleSystem effect in _attackEffects)
@@ -65,22 +71,29 @@ namespace _01Script.Player
             }
         }
 
-        public void AttackEffect(bool f, bool w, bool e, Vector3 mousePos)  //공격 실행
+        public void CanAttacck(bool f, bool w, bool e)
         {
-            setting = true;
+            _canFire = f;
+            _canWater = w;
+            _canElectricity = e;
+        }
+
+        public void AttackEffect( Vector3 mousePos)  //공격 실행
+        {
+            _setting = true;
             attackPos.position = mousePos; //목표 지점
             
-            if (f)
+            if (_canFire)
             {
                 _attackEffects.Add(fireEffect);
             }
         
-            if (w)
+            if (_canWater)
             {
                 _attackEffects.Add(waterEffect);
             }
 
-            if (e)
+            if (_canElectricity)
             {
                 _attackEffects.Add(electricityEffect);
             }
@@ -105,11 +118,11 @@ namespace _01Script.Player
                 effect.gameObject.SetActive(false);
                 effect.gameObject.transform.SetParent(startPos, false);
                 
-                if(!setting)
+                if(!_setting)
                     continue;
                 
                 //생성
-                GameObject sk = Instantiate(skill[effect]);
+                GameObject sk = Instantiate(_skill[effect]);
                 sk.SetActive(true);
                 sk.transform.SetParent(skillPos, false);
                 sk.transform.position = attackPos.position;

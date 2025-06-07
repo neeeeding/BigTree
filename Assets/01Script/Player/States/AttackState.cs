@@ -18,7 +18,7 @@ namespace _01Script.Player.States
             MousePos();
             if (mousePos != null)
             {
-                _player.Attack.AttackEffect(true, false, false, mousePos.Value);
+                _player.Attack.AttackEffect( mousePos.Value);
                 
             }
             isAttack = true;
