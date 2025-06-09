@@ -27,19 +27,56 @@ namespace _01Script.Player
         {
             _controller = GetComponentInChildren<CharacterController>();
             _animator = GetComponentInChildren<Animator>();
-            _stateMachine = new StateMachine(this,_animator,states);
-            _stateMachine.Init("IDLE");
+        //     _stateMachine = new StateMachine(this,_animator,states);
+        //     _stateMachine.Init("IDLE");=
+        
+        
+        InputController.onAttack += DoAttack;
         }
+
+    private bool isAttack;
+    private Vector3? mousePos;
+    private void DoAttack()
+    { 
+        isAttack = false;
+        MousePos();
+        if (mousePos != null)
+        {
+            Attack.AttackEffect( mousePos.Value);
+                
+        }
+        isAttack = true;
+    }
+
+    private void MousePos() //마우스 위치 찾기
+    {           
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        float maxDistance = 100f; // 광선 최대 거리
+
+        if (Physics.Raycast(ray, out hit, maxDistance, attackLayer))
+        {
+            Vector3 contactPoint = hit.point; // 실제 충돌 위치
+            GameObject hitObj = hit.collider.gameObject;
+    
+            Debug.DrawLine(ray.origin, contactPoint, Color.red, 1f);
+            mousePos = contactPoint;
+            return;
+        }
+
+
+        mousePos = null;
+    }
         
         public void ChangeState(String stateName)
         {
             _stateMachine.ChanageState(stateName);
         }
         
-        private void Update()
-        {
-            curState = _stateMachine.stateName;
-            _stateMachine.UpdateState();
-        }
+        // private void Update()
+        // {
+        //     curState = _stateMachine.stateName;
+        //     _stateMachine.UpdateState();
+        // }
     }
 }

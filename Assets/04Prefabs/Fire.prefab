@@ -24450,7 +24450,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetLayer:
     serializedVersion: 2
-    m_Bits: 24592
+    m_Bits: 288768
   radius: 1.5
   upSize: 3
   electricityTree:
@@ -24461,7 +24461,7 @@ MonoBehaviour:
     m_Bits: 16384
   water:
     serializedVersion: 2
-    m_Bits: 2064
+    m_Bits: 2048
 --- !u!136 &8068831108474316659
 CapsuleCollider:
   m_ObjectHideFlags: 0
