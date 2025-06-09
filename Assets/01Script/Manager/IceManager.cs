@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using _01Script.Skill;
+using _01Script.Obj;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -12,11 +12,12 @@ namespace _01Script.Manager
         [SerializeField] private int iceCount = 5; //얼음 개수 (총 말고)
         [SerializeField] private float delay = 3f; //딜레이
         [SerializeField] private Vector3 iceSize; //얼음 사이즈
-        [SerializeField] private Vector3[] cantIce = {new Vector3(1,0,4),new Vector3(0,1,1), new Vector3(2,2,2), new Vector3(4,3,3), new Vector3(1,4,4)}; //금속 둘 곳
+        [SerializeField] private Vector3[] cantIce = {new Vector3(4,0,3),new Vector3(1,1,4), new Vector3(2,2,2), new Vector3(3,3,0), new Vector3(0,4,1)}; //금속 둘 곳
         [Header("Need")]
         [SerializeField] private GameObject icePrefab; //얼음
         [SerializeField] private MetalObj completeCheck; //완료 확인
         [SerializeField] private Transform basicPos; //생성 위치
+        [SerializeField] private GameObject wall; //벽
         
         private Dictionary<IceObj, Vector3> _all; //모든 얼음과 위치
         private float _delayTime; //시간 재기
@@ -30,7 +31,7 @@ namespace _01Script.Manager
 
         private void Update()
         {
-            //CheckComplete();
+            CheckComplete();
             
             if (_revertIce.Count > 0)
             {
@@ -49,13 +50,14 @@ namespace _01Script.Manager
         {
             obj.gameObject.SetActive(false);
             _revertIce.Push(obj);
+            _delayTime = 0;
         }
 
         private void CheckComplete() //완료 했는지 확인
         {
             if (completeCheck.CheckAll())
             {
-                Destroy(gameObject);
+                Destroy(wall.gameObject);
             }
         }
         
@@ -69,17 +71,23 @@ namespace _01Script.Manager
                     for (int z = 0; z < iceCount; z++)
                     {
                         Vector3 pos = new Vector3(x, y, z);
+                        bool isBox = false; //박스 위치인지
                         foreach (Vector3 v in cantIce)
                         {
                             if (Vector3.Distance(v, pos) < 0.01f)
-                                continue;
+                                isBox = true;
+                        }
+
+                        if (isBox)
+                        {
+                            continue;
                         }
                         
                         
                         GameObject ice = Instantiate(icePrefab, transform);
                         ice.transform.SetParent(transform);
 
-                        if (ice.TryGetComponent(out IceObj sc)) //넣기
+                        if (ice.gameObject.transform.GetChild(0).TryGetComponent(out IceObj sc)) //넣기
                         {
                             _all.Add(sc, pos);
                             sc.SetParent(this);

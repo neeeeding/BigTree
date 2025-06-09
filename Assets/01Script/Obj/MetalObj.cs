@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using _01Script.Manager;
+﻿using _01Script.Manager;
 using _01Script.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _01Script.Skill
+namespace _01Script.Obj
 {
     public class MetalObj : ObjCheck
     {
@@ -20,13 +18,9 @@ namespace _01Script.Skill
         
         private bool isAll; //동시에 모두 전기가 통한적이 있었는지
         private bool me;
-        private Dictionary<MetalObj, bool> _all; //전체가 들어있는
         protected override void Awake()
         {
             base.Awake();
-            
-            FillDictionary();
-            
             me = false;
             isAll =false;
         }
@@ -35,9 +29,9 @@ namespace _01Script.Skill
         {
             light.SetActive(isAll || me);
             
-            foreach (bool sc in _all.Values)
+            foreach (MetalObj sc in metalObjs)
             {
-                if (!sc)
+                if (!sc.IsMe())
                 {
                     return;   
                 }
@@ -78,7 +72,7 @@ namespace _01Script.Skill
                 }
                 else
                 {
-                    dialogManager.DoDialog(new string[]{"모든 상자를 연결해야 할 것 같다."});
+                    dialogManager.DoDialog(new string[]{"이게 상자인것 같다.","모든 상자에 전기가 통해야 할 것 같다."});
                 }
             }
         }
@@ -87,23 +81,17 @@ namespace _01Script.Skill
         {
             return isAll;
         }
+
+        public bool IsMe() //일단 본인은?
+        {
+            return me;
+        }
         
         private void WaterCheck(GameObject obj) //전기 통하는 물 확인
         {
             if (obj.TryGetComponent(out WaterObj water))
             {
                 me =water.OtherWaterCheck(WaterObj.WaterCheckTypEnum.On);
-                _all[this] = me;
-            }
-        }
-
-        private void FillDictionary()
-        {
-            _all = new Dictionary<MetalObj, bool>();
-
-            foreach (MetalObj obj in metalObjs)
-            {
-                _all.Add(obj, false);
             }
         }
     }

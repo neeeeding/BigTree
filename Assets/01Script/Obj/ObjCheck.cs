@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace _01Script.Skill
+namespace _01Script.Obj
 {
     public class ObjCheck : MonoBehaviour
     {

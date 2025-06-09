@@ -99,15 +99,15 @@ namespace _01Script.ObjUI
             bool e = false;
             foreach (RaycastHit obj in _corners)
             {
-                if (obj.transform.gameObject.layer == LayerMask.NameToLayer("Fire") && _canAttack[obj])
+                if (obj.transform.gameObject.layer == LayerMask.NameToLayer("Fb") && _canAttack[obj])
                 {
                     f = true;
                 }
-                if (obj.transform.gameObject.layer == LayerMask.NameToLayer("Waterobj")&& _canAttack[obj])
+                if (obj.transform.gameObject.layer == LayerMask.NameToLayer("Wb")&& _canAttack[obj])
                 {
                     w = true;
                 }
-                if (obj.transform.gameObject.layer == LayerMask.NameToLayer("Electricity")&& _canAttack[obj])
+                if (obj.transform.gameObject.layer == LayerMask.NameToLayer("Eb")&& _canAttack[obj])
                 {
                     e = true;
                 }

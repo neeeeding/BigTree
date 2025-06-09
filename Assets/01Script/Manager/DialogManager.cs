@@ -57,7 +57,6 @@ namespace _01Script.UI
         {
             words = w;
             word = 0;
-            num = 0;
             Next();
         }
 

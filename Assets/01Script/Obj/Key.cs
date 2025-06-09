@@ -1,7 +1,6 @@
 ﻿using _01Script.Manager;
 using _01Script.UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace _01Script.Obj
 {
@@ -11,7 +10,7 @@ namespace _01Script.Obj
         [SerializeField] private KeyManager.CheckKeyType keyType; //열쇠 종류
         [Header("Need")]
         [SerializeField] private KeyManager key; //열쇠 얻기
-        [FormerlySerializedAs("dialog")] [SerializeField] private DialogManager dialogManager; //대화
+        [SerializeField] private DialogManager dialogManager; //대화
         
         private void OnTriggerStay(Collider other)
         {
