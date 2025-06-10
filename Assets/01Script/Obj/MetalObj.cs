@@ -9,25 +9,25 @@ namespace _01Script.Obj
     {
         [Header("Setting")]
         [SerializeField] private bool isBox; // 자신이 상자인지
-        [SerializeField] private KeyManager.CheckKeyType keyType; //열쇠 종류
+        [SerializeField] private KeyManager.ElementType keyType; //열쇠 종류
         [SerializeField] private MetalObj[]  metalObjs; //상자 일 때 채워주기
+        [SerializeField] private GameObject keyObject; //열쇠
         [Header("Need")]
-        [SerializeField] private GameObject light; //확인 빛
-        [FormerlySerializedAs("dialog")] [SerializeField] private DialogManager dialogManager; //대화
+        [SerializeField] private new GameObject light; //확인 빛
         [SerializeField] private KeyManager key;
         
-        private bool isAll; //동시에 모두 전기가 통한적이 있었는지
-        private bool me;
+        private bool _isAll; //동시에 모두 전기가 통한적이 있었는지
+        private bool _me;
         protected override void Awake()
         {
             base.Awake();
-            me = false;
-            isAll =false;
+            _me = false;
+            _isAll =false;
         }
 
         private void Update()
         {
-            light.SetActive(isAll || me);
+            light.SetActive(_isAll || _me);
             
             foreach (MetalObj sc in metalObjs)
             {
@@ -37,8 +37,14 @@ namespace _01Script.Obj
                 }
             }
             
+            if (keyObject)
+            {
+                keyObject.SetActive(_isAll);
+            }
+            
             if(isBox)
-                isAll = true;
+                _isAll = true;
+
         }
         protected override void OnDrawGizmos()
         {
@@ -53,45 +59,25 @@ namespace _01Script.Obj
             }
             else
             {
-                me = false;
-            }
-        }
-
-        private void OnTriggerStay(Collider other)
-        {
-            if (other.gameObject.CompareTag("Player") && Input.GetKeyDown(KeyCode.F))
-            {
-                if (isBox && isAll)
-                {
-                    dialogManager.DoDialog(new string[]{"열쇠를 얻었다."});
-                    key.GetKey(keyType);
-                }
-                else if (isBox)
-                {
-                    dialogManager.DoDialog(new string[]{"여기에 열쇠가 들어있는거 같다."});
-                }
-                else
-                {
-                    dialogManager.DoDialog(new string[]{"이게 상자인것 같다.","모든 상자에 전기가 통해야 할 것 같다."});
-                }
+                _me = false;
             }
         }
 
         public bool CheckAll() //완료 했는지 확인
         {
-            return isAll;
+            return _isAll;
         }
 
         public bool IsMe() //일단 본인은?
         {
-            return me;
+            return _me;
         }
         
         private void WaterCheck(GameObject obj) //전기 통하는 물 확인
         {
             if (obj.TryGetComponent(out WaterObj water))
             {
-                me =water.OtherWaterCheck(WaterObj.WaterCheckTypEnum.On);
+                _me =water.OtherWaterCheck(WaterObj.WaterCheckTypEnum.On);
             }
         }
     }

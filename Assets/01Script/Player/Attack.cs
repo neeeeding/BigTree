@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using _01Script.Manager;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -28,50 +30,53 @@ namespace _01Script.Player
         private bool _canWater;
         private bool _canElectricity;
         
-
-        private List<ParticleSystem> _attackEffects; //지금 실행할 공격들
-        private Dictionary<ParticleSystem, GameObject> _skill; //스킬
         private bool _setting; //true : 시작 / false : 세팅 전
+        
+        private ParticleSystem _currentEffect; //지금 공격(위치 정해주기)
+        private Dictionary<KeyManager.ElementType, GameObject> _skill; //스킬
+        private Dictionary<ParticleSystem, KeyManager.ElementType> _nowAttack; //현재 공격들(실제)
+        private Dictionary<ParticleSystem, Vector3> _attackPos; //공격들 위치
 
 
         private void Awake()
         {
             _setting = false;
-            _attackEffects =  new List<ParticleSystem>();
-            _attackEffects.Add(fireEffect);
-            _attackEffects.Add(waterEffect);
-            _attackEffects.Add(electricityEffect);
-            
-            _skill = new Dictionary<ParticleSystem, GameObject>();
-            _skill.Add(fireEffect, fire);
-            _skill.Add(waterEffect, water);
-            _skill.Add(electricityEffect, electricity);
-            
-            StopAttack();
+
+            _attackPos =  new Dictionary<ParticleSystem, Vector3>();
+            _nowAttack = new Dictionary<ParticleSystem, KeyManager.ElementType>();
+            _skill = new Dictionary<KeyManager.ElementType, GameObject>();
+            _skill.Add(KeyManager.ElementType.Fire, fire);
+            _skill.Add(KeyManager.ElementType.Water,water);
+            _skill.Add(KeyManager.ElementType.Electricity, electricity);
         }
 
         private void Update()
         {
-            if (_setting&&_attackEffects != null && _attackEffects.Count > 0) //공격 함?
+            if (_setting&&_nowAttack.Count > 0) //공격 함?
             {
-
-                foreach (ParticleSystem effect in _attackEffects)
+                var attackKeys = new List<ParticleSystem>(_nowAttack.Keys);
+                for (int i = attackKeys.Count - 1; i >= 0; i--)
                 {
-                    effect.gameObject.transform.position = Vector3.MoveTowards(
-                        effect.gameObject.transform.position,
-                        attackPos.position,
-                        speed* Time.deltaTime);
-                }
-                
-                float di = Vector3.Distance(_attackEffects[0].gameObject.transform.position, attackPos.position);
-                if (di < 0.5f)
-                {
-                    StopAttack();
+                    ParticleSystem att = attackKeys[i];
+            
+                    // 해당 키가 여전히 Dictionary에 존재하는지 확인
+                    if (!_nowAttack.ContainsKey(att)) continue;
+            
+                    att.gameObject.transform.position = Vector3.MoveTowards(
+                        att.gameObject.transform.position,
+                        _attackPos[att],
+                        speed * Time.deltaTime);
+            
+                    float di = Vector3.Distance(att.gameObject.transform.position, _attackPos[att]);
+                    if (di < 0.5f)
+                    {
+                        StopAttack(att);
+                    }
                 }
             }
         }
 
-        public void CanAttacck(bool f, bool w, bool e)
+        public void CanAttacck(bool f, bool w, bool e) //가능한 공격 상태 (받기)
         {
             _canFire = f;
             _canWater = w;
@@ -81,54 +86,61 @@ namespace _01Script.Player
         public void AttackEffect( Vector3 mousePos)  //공격 실행
         {
             _setting = true;
-            attackPos.position = mousePos; //목표 지점
+            ParticleSystem effect;
+            KeyManager.ElementType  type = KeyManager.ElementType.None;
             
             if (_canFire)
             {
-                _attackEffects.Add(fireEffect);
+                effect = fireEffect;
+                type = KeyManager.ElementType.Fire;
             }
-        
-            if (_canWater)
+            else if (_canWater)
             {
-                _attackEffects.Add(waterEffect);
+                effect = waterEffect;
+                type = KeyManager.ElementType.Water;
+            }
+            else if (_canElectricity)
+            {
+                effect = electricityEffect;
+                type = KeyManager.ElementType.Electricity;
+            }
+            else
+            {
+                effect = null;
+                type = KeyManager.ElementType.None;
             }
 
-            if (_canElectricity)
+            if (effect)
             {
-                _attackEffects.Add(electricityEffect);
-            }
-
-            foreach (ParticleSystem effect in _attackEffects) //실행
-            {
-                effect.gameObject.transform.localRotation = Quaternion.LookRotation(mousePos);
-                effect.gameObject.transform.localRotation *= Quaternion.Euler(90f, 0f, 0f);
+                ParticleSystem att = Instantiate(effect, transform);
+                att.gameObject.transform.localRotation = Quaternion.LookRotation(mousePos);
+                att.gameObject.transform.localRotation *= Quaternion.Euler(90f, 0f, 0f);
                 
-                effect.gameObject.SetActive(true);
-                effect.Play();
-                effect.gameObject.transform.SetParent(attackPos, true);
+                att.gameObject.SetActive(true);
+                att.Play();
+                att.gameObject.transform.SetParent(attackPos, true);
+
+                _currentEffect = att;
+                _nowAttack.Add(att,type );
+                _attackPos.Add(_currentEffect,mousePos); //목표 지점
             }
         }
 
-        public void StopAttack() //공격 멈추기 (이펙트
+        private void StopAttack(ParticleSystem att) //공격 멈추기 (이펙트
         {
-            
-            foreach (ParticleSystem effect in _attackEffects)
+            if (att)
             {
-                effect.Stop();
-                effect.gameObject.SetActive(false);
-                effect.gameObject.transform.SetParent(startPos, false);
-                
-                if(!_setting)
-                    continue;
-                
                 //생성
-                GameObject sk = Instantiate(_skill[effect]);
+                KeyManager.ElementType type = _nowAttack[att];
+                GameObject sk = Instantiate(_skill[type]);
                 sk.SetActive(true);
                 sk.transform.SetParent(skillPos, false);
-                sk.transform.position = attackPos.position;
+                sk.transform.position = _attackPos[att];
+                
+                
+                Destroy(att.gameObject);
+                _nowAttack.Remove(att);
             }
-            
-            _attackEffects.Clear();
         }
     }
 }

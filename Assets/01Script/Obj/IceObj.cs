@@ -45,7 +45,14 @@ namespace _01Script.Obj
             if ((fire.value & (1 << obj.layer)) != 0)
             {
                 Destroy(obj);
-                _iceManager.PushIce(this);
+                if (_iceManager)
+                {
+                    _iceManager.PushIce(this);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

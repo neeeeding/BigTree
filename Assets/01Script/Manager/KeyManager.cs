@@ -17,17 +17,17 @@ namespace _01Script.Manager
             _electricity = false;
         }
 
-        public void GetKey(CheckKeyType v) //열쇠 얻음
+        public void GetKey(ElementType v) //열쇠 얻음
         {
             switch (v)
             {
-                case CheckKeyType.Water:
+                case ElementType.Water:
                     _water = true;
                     break;
-                case CheckKeyType.Fire:
+                case ElementType.Fire:
                     _fire = true;
                     break;
-                case CheckKeyType.Electricity:
+                case ElementType.Electricity:
                     _electricity = true;
                     break;
                 default:
@@ -35,20 +35,21 @@ namespace _01Script.Manager
             }
         }
 
-        public enum CheckKeyType
+        public enum ElementType
         {
             Water,
             Fire,
-            Electricity
+            Electricity,
+            None
         }
 
-        public bool CheckKey(CheckKeyType v)
+        public bool CheckKey(ElementType v)
         {
             return v switch
             {
-                CheckKeyType.Water => _water,
-                CheckKeyType.Fire => _fire,
-                CheckKeyType.Electricity => _electricity,
+                ElementType.Water => _water,
+                ElementType.Fire => _fire,
+                ElementType.Electricity => _electricity,
                 _ => false
             };
         }

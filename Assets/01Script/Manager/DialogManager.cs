@@ -1,10 +1,9 @@
-using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace _01Script.UI
+namespace _01Script.Manager
 {
     public class DialogManager : MonoBehaviour
     {
@@ -19,6 +18,8 @@ namespace _01Script.UI
         
         private int word; //현재 출력하고 있는거
         private int num; //글자 순서
+
+        private bool isDialog; //true : 실행 중 / false : 실행 안하고 있음
 
         private void Awake()
         {
@@ -41,6 +42,7 @@ namespace _01Script.UI
              
             if (word >= words.Length)
             {
+                isDialog = false;
                 im.SetActive(false);
                 text.gameObject.SetActive(false);
                 return;
@@ -51,6 +53,11 @@ namespace _01Script.UI
         private void Next()
         {
             StartCoroutine(TextPrint());
+        }
+
+        public bool CanDialog() //대화 하는 중인지
+        {
+            return isDialog;
         }
         
         public void DoDialog(string[] w) //대화 실행
@@ -64,6 +71,7 @@ namespace _01Script.UI
         {
             im.SetActive(true);
             text.gameObject.SetActive(true);
+            isDialog = true;
             
             text.text = "";
             

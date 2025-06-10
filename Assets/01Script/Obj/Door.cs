@@ -1,5 +1,6 @@
 ﻿using System;
 using _01Script.Manager;
+using _01Script.ObjUI;
 using _01Script.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -9,11 +10,12 @@ namespace _01Script.Obj
     public class Door : MonoBehaviour
     {
         [Header("Setting")]
-        [SerializeField] private KeyManager.CheckKeyType keyType; //열쇠 종류
+        [SerializeField] private KeyManager.ElementType keyType; //열쇠 종류
         [SerializeField] private GameObject nextDoor;
         [Header("Need")]
         [SerializeField] private KeyManager keyManager; //열쇠 유무
-        [FormerlySerializedAs("dialog")] [SerializeField] private DialogManager dialogManager; //대화
+        [SerializeField] private InteractionUI fUi; //상호작용 UI
+        [SerializeField] private GameObject door; //열릴 문
 
         private void Awake()
         {
@@ -23,22 +25,18 @@ namespace _01Script.Obj
             }
         }
 
-        private void OnTriggerStay(Collider other)
+        private void Update()
         {
-            if (other.gameObject.CompareTag("Player") && Input.GetKeyDown(KeyCode.F))
+            if (keyManager.CheckKey(keyType)) //열쇠를 얻었음
             {
-                if (keyManager.CheckKey(keyType))
+                fUi.ChangeWords(new String[]{"문이 열렸다."});
+                if (fUi.IsYou(gameObject)) //지금 문을 상호작용 중일 때
                 {
-                    dialogManager.DoDialog(new string[]{"문이 열렸다."});
-                    if (nextDoor != null)
+                    if (nextDoor)
                     {
                         nextDoor.SetActive(true);
                     }
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    dialogManager.DoDialog(new string[]{"열쇠가 필요한 것 같다."});
+                    Destroy(door);
                 }
             }
         }

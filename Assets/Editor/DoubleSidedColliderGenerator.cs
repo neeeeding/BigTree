@@ -20,12 +20,12 @@ public class DoubleSidedColliderGenerator : EditorWindow
         GUILayout.Label("원본 메쉬가 있는 GameObject를 지정하세요", EditorStyles.boldLabel);
         targetObject = (GameObject)EditorGUILayout.ObjectField("Target Object", targetObject, typeof(GameObject), true);
 
-        if (GUILayout.Button("1) 새로운 반전 메쉬 생성") && targetObject != null)
+        if (GUILayout.Button("1) 새로운 반전 메쉬 생성") && targetObject)
         {
             GenerateInvertedMesh(targetObject);
         }
 
-        if (GUILayout.Button("2) 두 개의 MeshCollider 붙이기") && targetObject != null)
+        if (GUILayout.Button("2) 두 개의 MeshCollider 붙이기") && targetObject)
         {
             AddDoubleSidedColliders(targetObject);
         }

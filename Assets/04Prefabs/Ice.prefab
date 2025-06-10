@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9119983523446286795}
   - component: {fileID: 3820635923137603451}
   - component: {fileID: 4082515079004433243}
+  - component: {fileID: 1872530590599859762}
   m_Layer: 18
   m_Name: Ice
   m_TagString: Untagged
@@ -101,6 +102,25 @@ CapsuleCollider:
   m_Height: 0.05
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1872530590599859762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6405138970141804062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de429a259da63984993a167c1aee354a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _words:
+  - "\uC5BC\uC74C\uC774\uB2E4."
+  - "\uB2F9\uC5F0\uD558\uAC8C\uB3C4 \uBD88\uC5D0 \uB179\uB294\uB2E4."
+  - "\uBB3C\uCC98\uB7FC \uC804\uAE30\uAC00 \uD1B5\uD558\uB294 \uAC74 \uC544\uB2CC
+    \uAC83 \uAC19\uB2E4."
+  - "\uC2DC\uAC04\uC774 \uC9C0\uB098\uBA74 \uB179\uC600\uB358 \uC5BC\uC74C\uC774
+    \uC0DD\uC131\uB41C\uB2E4."
 --- !u!1 &8016871310352000475
 GameObject:
   m_ObjectHideFlags: 0

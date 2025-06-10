@@ -48,9 +48,16 @@ namespace _01Script.Manager
 
         public void PushIce(IceObj obj) //얼음 비활성화
         {
-            obj.gameObject.SetActive(false);
-            _revertIce.Push(obj);
-            _delayTime = 0;
+            if (_all.ContainsKey(obj))
+            {
+                obj.gameObject.SetActive(false);
+                _revertIce.Push(obj);
+                _delayTime = 0;
+            }
+            else
+            {
+                Destroy(obj.gameObject);
+            }
         }
 
         private void CheckComplete() //완료 했는지 확인
