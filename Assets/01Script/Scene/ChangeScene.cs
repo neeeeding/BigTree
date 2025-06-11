@@ -1,4 +1,5 @@
 using System;
+using _01Script.ObjUI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,18 +9,36 @@ namespace _01Script.Scene
     {
         [Header("Setting")]
         [SerializeField] string sceneName;
-        
-        private void OnTriggerStay(Collider other)
+        [Header("Need")]
+        [SerializeField] private InteractionUI fUi; //상호작용 UI
+
+        private bool isDialog; // 대화 끝났는지
+
+        private void Awake()
         {
-            if (other.gameObject.CompareTag("Player") && Input.GetKeyDown(KeyCode.F))
+            isDialog = false;
+        }
+
+        private void Update()
+        {
+            if (fUi)
             {
-                Button(sceneName);
+                if (fUi.IsYou(gameObject))
+                {
+                    isDialog = true;
+                }
+
+                if (isDialog && !fUi.IsYou(gameObject)) 
+                {
+                    Button(sceneName);
+                
+                }
             }
         }
 
         public void Button(string name)
         {
-            SceneManager.LoadScene(sceneName);
+            SceneManager.LoadScene(name);
         }
 
         public void QuitBtn()

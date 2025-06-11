@@ -20,9 +20,12 @@ namespace _01Script.ObjUI
         private static DialogManager _dialogManager; //대화
         private static Material _outLine; //잡고 있음을 보여주려고
         private static Camera _camera;
+
+        private bool isOutLine; // 아웃 라인 있는지
         
         private void Start()
         {
+            isOutLine =  true;
             if (_showText != null)
             {
                 _showText.text = $"F로\n상호작용";
@@ -42,7 +45,7 @@ namespace _01Script.ObjUI
 
         public bool IsYou(GameObject you) //지금 보여주고 있는게 본인이 맞다
         {
-            if (_runningMe == null)
+            if (!_runningMe)
             {
                 return false;
             }
@@ -56,7 +59,7 @@ namespace _01Script.ObjUI
             {
                 _showText.gameObject.SetActive(true);
             }
-            if(Input.GetKeyDown(KeyCode.F))
+            if(Input.GetKeyDown(KeyCode.F) && _words != null)
             {
                 _dialogManager.DoDialog(_words);
                 _showText.gameObject.SetActive(false);
@@ -75,12 +78,12 @@ namespace _01Script.ObjUI
             {
                 if (hit.transform.TryGetComponent(out InteractionUI me)) //해당 스크립트를 가지고 있음
                 {
-                    if (me.selectMesh)
+                    if (me.isOutLine&& me.selectMesh)
                     {
-                        List<Material> materialList = new List<Material>(selectMesh.materials);
-                        print($"why {materialList.Count}");
+                        List<Material> materialList = new List<Material>(me.selectMesh.materials);
                         materialList.Add(_outLine);
-                        selectMesh.materials = materialList.ToArray();
+                        me.selectMesh.materials = materialList.ToArray();
+                        me.isOutLine = false;
                     }
                     
                     _runningMe = me;
@@ -88,17 +91,29 @@ namespace _01Script.ObjUI
                     everyNot = false;
                 }
             }
-
+            
             if (everyNot)
             {
-                _runningMe = null;
-                if (selectMesh)
+                if (selectMesh && !isOutLine)
                 {
                     List<Material> materialList = new List<Material>(selectMesh.materials);
-                    materialList.RemoveAll(mt => mt == _outLine);
-                    print(materialList.count);
+                    for (int i = materialList.Count - 1; i >= 0; i--)
+                    {
+                        if (materialList[i].name == _outLine.name || 
+                            materialList[i].name == _outLine.name + " (Instance)")
+                        {
+                            materialList.RemoveAt(i);
+                            break; // 첫 번째 것만 제거
+                        }
+                        else
+                        {
+                            print(materialList[i].name);
+                        }
+                    }
                     selectMesh.materials = materialList.ToArray();
                 }
+                _runningMe = null;
+                isOutLine =  true;
                 _showText.gameObject.SetActive(false);
             }
         }
