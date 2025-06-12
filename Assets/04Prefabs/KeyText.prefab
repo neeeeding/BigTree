@@ -201,8 +201,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uB9C8\uC6B0\uC2A4\uB97C \uB20C\uB7EC \uC0C1\uD638\uC791\uC6A9"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8ed93e546bea90e43b12480043ab8e5b, type: 2}
-  m_sharedMaterial: {fileID: -5776039989154645546, guid: 8ed93e546bea90e43b12480043ab8e5b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7d1b0dae752361343b2af078a9c95347, type: 2}
+  m_sharedMaterial: {fileID: 1661321545561394342, guid: 7d1b0dae752361343b2af078a9c95347, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

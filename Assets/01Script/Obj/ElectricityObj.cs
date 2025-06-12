@@ -4,9 +4,9 @@ namespace _01Script.Obj
 {
     public class ElectricityObj : ObjCheck
     {
-        protected override void OnDrawGizmos()
+        protected override void Update()
         {
-            base.OnDrawGizmos();
+            base.Update();
 
             if (Check)
             {

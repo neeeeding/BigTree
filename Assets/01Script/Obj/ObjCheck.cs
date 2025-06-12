@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace _01Script.Obj
@@ -19,12 +20,16 @@ namespace _01Script.Obj
             IsStart = true;
         }
 
-        protected virtual void OnDrawGizmos()
+        protected virtual void Update()
         {
             Col = Physics.OverlapSphere(gameObject.transform.position, radius, targetLayer);
 
             Check = Col.Length > 0;
                 
+        }
+
+        private void OnDrawGizmos()
+        {
             Gizmos.color = Check? Color.red : Color.blue;
             Gizmos.DrawWireSphere(gameObject.transform.position, radius);
         }

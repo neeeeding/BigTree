@@ -23,12 +23,12 @@ namespace _01Script.Scene
         {
             if (fUi)
             {
-                if (fUi.IsYou(gameObject))
+                if (!isDialog&&fUi.IsYou(gameObject))
                 {
                     isDialog = true;
                 }
 
-                if (isDialog && !fUi.IsYou(gameObject)) 
+                if (isDialog && !fUi.IsYou(gameObject, true)) 
                 {
                     Button(sceneName);
                 

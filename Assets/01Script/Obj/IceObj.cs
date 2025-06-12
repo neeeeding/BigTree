@@ -16,9 +16,9 @@ namespace _01Script.Obj
             IsStart = true;
         }
         
-        protected override void OnDrawGizmos()
+        protected override void Update()
         {
-            base.OnDrawGizmos();
+            base.Update();
             
             if (Check)
             {

@@ -24,9 +24,9 @@ namespace _01Script.Obj
             _isElectricity = false;
         }
         
-        protected override void OnDrawGizmos()
+        protected override void Update()
         {
-            base.OnDrawGizmos();
+            base.Update();
 
             if (Check)
             {

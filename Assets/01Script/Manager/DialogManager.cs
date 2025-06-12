@@ -42,9 +42,9 @@ namespace _01Script.Manager
              
             if (word >= words.Length)
             {
-                isDialog = false;
                 im.SetActive(false);
                 text.gameObject.SetActive(false);
+                isDialog = false;
                 return;
             }
             Next();

@@ -163,7 +163,7 @@ namespace _01Script.ObjUI
             Debug.DrawLine(startPos, endPos, Color.red, 1f);
             
             RaycastHit[] hitBuffer = new RaycastHit[10];
-            int hitCount = Physics.RaycastNonAlloc(ray, hitBuffer, 100, corner);
+            int hitCount = Physics.RaycastNonAlloc(ray, hitBuffer, Vector3.Distance(startPos, endPos), corner);
 
             if (hitCount <= 0)
             {

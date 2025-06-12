@@ -42,7 +42,7 @@ namespace _01Script.Player
         {
             ApplyGravity();
 
-            _controller.Move(_velocity * Time.fixedDeltaTime);
+            _controller.Move(_velocity * Time.deltaTime);
         }
 
         private void ApplyGravity()
@@ -53,7 +53,7 @@ namespace _01Script.Player
             }
             else if(!isJump)
             {
-                _verticalVelocity += gravity * Time.fixedDeltaTime;
+                _verticalVelocity += gravity * Time.deltaTime;
 
                 // 너무 빠르게 떨어지지 않도록 제한
                 if (_verticalVelocity < terminalVelocity)
@@ -61,7 +61,7 @@ namespace _01Script.Player
             }
             if (isJump )
             { 
-                _verticalVelocity = Mathf.MoveTowards(_verticalVelocity, jumpPower, runSpeed*Time.fixedDeltaTime);
+                _verticalVelocity = Mathf.MoveTowards(_verticalVelocity, jumpPower, runSpeed*Time.deltaTime);
 
                 if (Mathf.Abs(jumpPower - _verticalVelocity) < 1f)
                 {   

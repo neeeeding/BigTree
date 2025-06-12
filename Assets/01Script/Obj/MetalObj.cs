@@ -12,10 +12,12 @@ namespace _01Script.Obj
         [SerializeField] private KeyManager.ElementType keyType; //열쇠 종류
         [SerializeField] private MetalObj[]  metalObjs; //상자 일 때 채워주기
         [SerializeField] private GameObject keyObject; //열쇠
+        [SerializeField] private DialogManager  dialogManager; //대화 (완료 유무)
         [Header("Need")]
         [SerializeField] private new GameObject light; //확인 빛
         [SerializeField] private KeyManager key;
-        
+
+        private bool _isAlarm; //알려줬는지
         private bool _isAll; //동시에 모두 전기가 통한적이 있었는지
         private bool _me;
         protected override void Awake()
@@ -23,33 +25,13 @@ namespace _01Script.Obj
             base.Awake();
             _me = false;
             _isAll =false;
+            _isAlarm =false;
         }
-
-        private void Update()
+        protected override void Update()
         {
-            light.SetActive(_isAll || _me);
+            base.Update();
             
-            foreach (MetalObj sc in metalObjs)
-            {
-                if (!sc.IsMe())
-                {
-                    return;   
-                }
-            }
             
-            if (keyObject)
-            {
-                keyObject.SetActive(_isAll);
-            }
-            
-            if(isBox)
-                _isAll = true;
-
-        }
-        protected override void OnDrawGizmos()
-        {
-            base.OnDrawGizmos();
-
             if (Check)
             {
                 foreach (var obj in Col)
@@ -60,6 +42,30 @@ namespace _01Script.Obj
             else
             {
                 _me = false;
+            }
+            if (keyObject)
+            {
+                keyObject.SetActive(_isAll);
+            }
+            
+            light.SetActive(_isAll || _me);
+            
+            foreach (MetalObj sc in metalObjs)
+            {
+                if (!sc.IsMe())
+                {
+                    return;   
+                }
+            }
+            
+            
+            if(isBox)
+                _isAll = true;
+
+            if (isBox && _isAll && !_isAlarm)
+            {
+                dialogManager.DoDialog(new []{"모든 상자를 연결 했다!"});
+                _isAlarm = true;
             }
         }
 

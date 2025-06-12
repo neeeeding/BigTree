@@ -15,9 +15,9 @@ namespace _01Script.Obj
             isTree = false;
         }
 
-        protected override void OnDrawGizmos()
+        protected override void Update()
         {
-            base.OnDrawGizmos();
+            base.Update();
             isTree = false;
 
             if (Check)

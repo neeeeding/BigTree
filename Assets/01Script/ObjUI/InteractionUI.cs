@@ -43,13 +43,17 @@ namespace _01Script.ObjUI
             _words = words;
         }
 
-        public bool IsYou(GameObject you) //지금 보여주고 있는게 본인이 맞다
+        public bool IsYou(GameObject you, bool isChat = false) //지금 보여주고 있는게 본인이 맞다
         {
             if (!_runningMe)
             {
                 return false;
             }
-            
+
+            if (isChat)
+            {
+                return _dialogManager.CanDialog();
+            }
             return _runningMe.gameObject ==  you && _dialogManager.CanDialog();
         }
 
@@ -104,10 +108,6 @@ namespace _01Script.ObjUI
                         {
                             materialList.RemoveAt(i);
                             break; // 첫 번째 것만 제거
-                        }
-                        else
-                        {
-                            print(materialList[i].name);
                         }
                     }
                     selectMesh.materials = materialList.ToArray();

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4638549753651784886}
   - component: {fileID: 6941267244000461481}
   - component: {fileID: 6236343114863749112}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Dry3333
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 8549759492248452214}
   - component: {fileID: 4857705635449135189}
   - component: {fileID: 5357064223515413838}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Dry8873LOD014
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 7958556659701469321}
   - component: {fileID: 5256748722406811482}
   - component: {fileID: 3160513468813099070}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Dry8873LOD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 3126529227173835867}
   - component: {fileID: 6401060125021299429}
   - component: {fileID: 5653635228686222351}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Dry8873LOD013
   m_TagString: Untagged
   m_Icon: {fileID: 0}
