@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using _01Script.Manager;
+using _01Script.Obj;
+using AYellowpaper.SerializedCollections;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -37,6 +39,7 @@ namespace _01Script.Player
         private Dictionary<ParticleSystem, KeyManager.ElementType> _nowAttack; //현재 공격들(실제)
         private Dictionary<ParticleSystem, Vector3> _attackPos; //공격들 위치
 
+        private Dictionary<KeyManager.ElementType, List<GameObject>> _pool; //스킬들 저장
 
         private void Awake()
         {
@@ -48,6 +51,8 @@ namespace _01Script.Player
             _skill.Add(KeyManager.ElementType.Fire, fire);
             _skill.Add(KeyManager.ElementType.Water,water);
             _skill.Add(KeyManager.ElementType.Electricity, electricity);
+
+            SkillPool(10);
         }
 
         private void Update()
@@ -126,20 +131,58 @@ namespace _01Script.Player
             }
         }
 
+        public void PoolPush(KeyManager.ElementType type, GameObject obj)
+        {
+            obj.SetActive(false);
+            _pool[type].Add(obj);
+        }
+
         private void StopAttack(ParticleSystem att) //공격 멈추기 (이펙트
         {
             if (att)
             {
-                //생성
                 KeyManager.ElementType type = _nowAttack[att];
-                GameObject sk = Instantiate(_skill[type]);
-                sk.SetActive(true);
+                GameObject sk;
+                if (_pool[type].Count > 0)
+                {
+                    sk = _pool[type][0];
+                    
+                }
+                else
+                {
+                    //생성
+                    sk = Instantiate(_skill[type]);
+                    sk.GetComponent<Pool>().SetParent(this, type);
+                }
+                
                 sk.transform.SetParent(skillPos, false);
                 sk.transform.position = _attackPos[att];
                 
+                sk.SetActive(true);
                 
                 Destroy(att.gameObject);
                 _nowAttack.Remove(att);
+            }
+        }
+
+        private void SkillPool(int num) //생성
+        {
+            _pool = new Dictionary<KeyManager.ElementType, List<GameObject>>();
+            _pool.Add(KeyManager.ElementType.Fire, new List<GameObject>());
+            _pool.Add(KeyManager.ElementType.Water, new List<GameObject>());
+            _pool.Add(KeyManager.ElementType.Electricity, new List<GameObject>());
+            
+            for (int i = 0; i < num; i++)
+            {
+                foreach (KeyManager.ElementType type in Enum.GetValues(typeof(KeyManager.ElementType)))
+                {
+                    if(type == KeyManager.ElementType.None)
+                        continue;
+                    GameObject sk = Instantiate(_skill[type], transform);
+                    sk.SetActive(false);
+                    sk.GetComponent<Pool>().SetParent(this, type);
+                    _pool[type].Add(sk);
+                }
             }
         }
     }

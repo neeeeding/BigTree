@@ -19450,7 +19450,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6a809280386823c468cee93bc4010dd2, type: 2}
   <attackLayer>k__BackingField:
     serializedVersion: 2
-    m_Bits: 262272
+    m_Bits: 289920
   <InputController>k__BackingField: {fileID: 11400000, guid: b0bbaefd733ebfc44ae2e1145cb0b579, type: 2}
   <Attack>k__BackingField: {fileID: 1428190199}
 --- !u!143 &1013245619

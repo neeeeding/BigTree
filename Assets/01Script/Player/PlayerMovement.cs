@@ -36,15 +36,11 @@ namespace _01Script.Player
         private void Update()
         {
             _input.UpdateMove();
-        }
-
-        private void FixedUpdate()
-        {
             ApplyGravity();
-
             _controller.Move(_velocity * Time.deltaTime);
         }
 
+        
         private void ApplyGravity()
         {
             if (!isJump&&IsGround && _verticalVelocity < 0)
@@ -73,12 +69,6 @@ namespace _01Script.Player
             _velocity.y = _verticalVelocity;
         
         }
-
-        private void Run(bool run)
-        {
-            isRun = run;
-        }
-
         private void Jump()
         {
             if (IsGround && !isJump)
@@ -87,11 +77,16 @@ namespace _01Script.Player
             }
         }
 
+        private void Run(bool run)
+        {
+            isRun = run;
+        }
+
         private void Move(Vector2 move)
         {
-            _movment= new Vector3(move.x, 0, move.y);
-
+            _movment = new Vector3(move.x, 0, move.y);
             _movment = transform.TransformDirection(_movment); // 현재 바라보는 방향으로 변환
+            _movment = _movment.normalized; // 정규화 추가로 일정한 속도 보장
         }
 
         private void OnDisable()

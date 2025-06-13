@@ -54,7 +54,7 @@ namespace _01Script.Player
             RaycastHit hit;
             float maxDistance = 100f; // 광선 최대 거리
 
-            if (Physics.Raycast(ray, out hit, maxDistance))
+            if (Physics.Raycast(ray, out hit, maxDistance,~0, QueryTriggerInteraction.Ignore))
             {
                 if (((1 << hit.collider.gameObject.layer) & attackLayer) != 0)
                 {
