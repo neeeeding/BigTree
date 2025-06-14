@@ -146,7 +146,7 @@ namespace _01Script.Player
                 if (_pool[type].Count > 0)
                 {
                     sk = _pool[type][0];
-                    
+                    _pool[type].Remove(sk);
                 }
                 else
                 {

@@ -180,7 +180,7 @@ namespace _01Script.ObjUI
 
             if (_start)
             {
-                scene.Button("GameScene");
+                scene.Button("TurorialScene");
             }
 
             if (_end)

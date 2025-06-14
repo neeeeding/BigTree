@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _01Script.Manager;
 using _01Script.Player;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ namespace _01Script.ObjUI
         [SerializeField] private GameObject targetObject; //(콘센트)오브제
         [SerializeField] private LineRenderer line; //줄
         [SerializeField] private Attack attack;
+        [SerializeField] private Sound sound;
 
         //캔버스 위치
         private Vector2 _canvasMinPos;
@@ -70,6 +72,12 @@ namespace _01Script.ObjUI
             }
         }
 
+        public bool[] IsFollow() //지금 실행중인지 알려주기
+        {
+            bool[] result = {_isFollow, f, w, e};
+            return result;
+        }
+
         private void SetLineColor() //선색 바꾸기
         {
             if (f)
@@ -111,6 +119,10 @@ namespace _01Script.ObjUI
             if (obj.transform.gameObject.layer == LayerMask.NameToLayer("Eb"))
             {
                 e = true;
+            }
+            if (obj.transform.gameObject.layer == LayerMask.NameToLayer("End"))
+            {
+                sound.Setting();
             }
             
             attack.CanAttacck(f,w,e);

@@ -1,11 +1,12 @@
 using System;
+using _01Script.Manager;
 using _01Script.ObjUI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace _01Script.Scene
 {
-    public class ChangeScene : MonoBehaviour
+    public class ChangeScene : MonoBehaviour,DialogDoScript
     {
         [Header("Setting")]
         [SerializeField] string sceneName;
@@ -17,6 +18,10 @@ namespace _01Script.Scene
         private void Awake()
         {
             isDialog = false;
+            if (fUi)
+            {
+                fUi.SetDoScript(this);
+            }
         }
 
         private void Update()
@@ -26,12 +31,6 @@ namespace _01Script.Scene
                 if (!isDialog&&fUi.IsYou(gameObject))
                 {
                     isDialog = true;
-                }
-
-                if (isDialog && !fUi.IsYou(gameObject, true)) 
-                {
-                    Button(sceneName);
-                
                 }
             }
         }
@@ -46,5 +45,9 @@ namespace _01Script.Scene
             Application.Quit();
         }
 
+        public void Do()
+        {
+            Button(sceneName);
+        }
     }
 }

@@ -12,6 +12,8 @@ namespace _01Script.Obj
         [SerializeField] private LayerMask fire; //불
         [SerializeField] private GameObject electricity; //전기 (자식)
 
+
+        private float time;
         private bool _isDelay; // true : 딜레이 / false : 딜레이 안 재고 있음.
         private bool _canElectricity; //true : 전기 통해도 됨 / false : 전기 못 통함
         private bool _isElectricity; //true : 전기 공급됨 / false : 전기 공급 안되고 있음.
@@ -28,16 +30,34 @@ namespace _01Script.Obj
         {
             base.Update();
 
+            if (!_isDelay && _isElectricity) //딜레이 아닌데 전기 통함
+            {
+                time += Time.deltaTime;
+                if (time >= delay)
+                {
+                    _isDelay = true;
+                }
+            }
+            
+            if (_isDelay)
+            {
+                _isElectricity = false;
+                time = 0;
+            }
+            
             if (Check)
             {
+                bool tree = false;
                 bool youCant = false;
                 bool youOff = true;
                 foreach (var obj in Col)
                 {
-                    TreeCheck(obj.gameObject, ref youCant, ref youOff);
+                    if(obj.gameObject == gameObject)
+                        continue;
+                    TreeCheck(obj.gameObject, ref tree, ref youCant, ref youOff);
                 }
                 
-                if (_isMe && _canElectricity &&  !youCant)
+                if (_isMe && _canElectricity &&  youCant)
                 { 
                     _isMe = false;
                 }
@@ -51,22 +71,16 @@ namespace _01Script.Obj
             
             IsStart = false;
         }
-
-        private IEnumerator ElectricityDelay() //전기 딜레이
-        {
-            yield return new WaitForSeconds(delay);
-            _isElectricity = false;
-            _isDelay = true;
-        }
         
-        private void TreeCheck(GameObject obj, ref bool cant, ref bool off) //전기 나무 확인
+        private void TreeCheck(GameObject obj,ref bool tree, ref bool cant, ref bool off) //전기 나무 확인
         {
             if ((electricityTree.value & (1 << obj.layer)) != 0) //나무
             {
                 _isMe = true;
                 _canElectricity = false;
+                tree = true;
             }
-            else if(_isMe)
+            else if(_isMe && !tree)
             {
                 _canElectricity = true;
             }
@@ -105,20 +119,12 @@ namespace _01Script.Obj
                 {
                     if (water.OtherWaterCheck(WaterCheckTypEnum.Delay))
                     {
-                        water.OtherWater(WaterCheckTypEnum.Delay, true);
-                        water.OtherWater(WaterCheckTypEnum.On, false);
+                        _isElectricity = false;
+                        _isDelay = true;
                     }
                     else
                     {
                         water.OtherWater(WaterCheckTypEnum.On, true);
-                    }
-                }
-
-                if (_isDelay) //시간 다 됨.
-                {
-                    if (water.OtherWaterCheck(WaterCheckTypEnum.On))
-                    {
-                        off = false;
                     }
                 }
                 
@@ -127,10 +133,10 @@ namespace _01Script.Obj
 
         public void Electricity() //전기 통하기
         {
-            OtherWater(WaterObj.WaterCheckTypEnum.On, true);
-            _isDelay = false;
-            StopAllCoroutines();
-            StartCoroutine(ElectricityDelay());
+            if (_canElectricity)
+            {
+                OtherWater(WaterObj.WaterCheckTypEnum.On, true);
+            }
         }
 
         public enum WaterCheckTypEnum

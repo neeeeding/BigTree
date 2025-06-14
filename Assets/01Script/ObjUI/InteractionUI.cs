@@ -15,6 +15,8 @@ namespace _01Script.ObjUI
         [SerializeField]private string[] _words; // 실행할 대화
         [SerializeField]private MeshRenderer selectMesh; //매쉬 바꾸려면
         
+        private DialogDoScript endDoScript; //끝 후에 해줄거.
+        
         [CanBeNull] private static InteractionUI _runningMe; //실행중인
         private static TextMeshProUGUI _showText; // 보여줄 텍스트
         private static DialogManager _dialogManager; //대화
@@ -36,6 +38,11 @@ namespace _01Script.ObjUI
         private void Update()
         {
             MousePos();
+        }
+
+        public void SetDoScript(DialogDoScript doScript)
+        {
+            endDoScript = doScript;
         }
 
         public void ChangeWords(string[] words)
@@ -65,7 +72,7 @@ namespace _01Script.ObjUI
             }
             if(Input.GetKeyDown(KeyCode.F) && _words != null)
             {
-                _dialogManager.DoDialog(_words);
+                _dialogManager.DoDialog(_words, endDoScript);
                 _showText.gameObject.SetActive(false);
             }
         }

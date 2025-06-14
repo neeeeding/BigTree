@@ -48,7 +48,7 @@ namespace _01Script.Obj
                 keyObject.SetActive(_isAll);
             }
             
-            light.SetActive(_isAll || _me);
+            light.SetActive(_me);
             
             foreach (MetalObj sc in metalObjs)
             {
@@ -62,7 +62,7 @@ namespace _01Script.Obj
             if(isBox)
                 _isAll = true;
 
-            if (isBox && _isAll && !_isAlarm)
+            if (isBox && _isAll && !_isAlarm && dialogManager)
             {
                 dialogManager.DoDialog(new []{"모든 상자를 연결 했다!"});
                 _isAlarm = true;

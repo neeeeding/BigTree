@@ -20,6 +20,7 @@ namespace _01Script.Manager
         private int num; //글자 순서
 
         private bool isDialog; //true : 실행 중 / false : 실행 안하고 있음
+        private DialogDoScript endDoScript; //끝 후에 해줄거.
 
         private void Awake()
         {
@@ -45,6 +46,11 @@ namespace _01Script.Manager
                 im.SetActive(false);
                 text.gameObject.SetActive(false);
                 isDialog = false;
+                if (endDoScript != null)
+                {
+                    endDoScript.Do();
+                }
+                endDoScript = null;
                 return;
             }
             Next();
@@ -60,11 +66,15 @@ namespace _01Script.Manager
             return isDialog;
         }
         
-        public void DoDialog(string[] w) //대화 실행
+        public void DoDialog(string[] w, DialogDoScript doSc = null) //대화 실행
         {
             words = w;
             word = 0;
             Next();
+            if (doSc != null)
+            {
+                endDoScript = doSc;
+            }
         }
 
         private IEnumerator TextPrint() //한 글자씩 출력
@@ -81,5 +91,10 @@ namespace _01Script.Manager
                 yield return new WaitForSeconds(delay);
             }
         }
+    }
+
+    public interface DialogDoScript
+    {
+        public void Do();
     }
 }
